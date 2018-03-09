@@ -1,0 +1,14 @@
+<angular2-multiselect [data]="client_properties"
+                      [(ngModel)]="visible_properties"
+                      [settings]="dropdownSettings"
+                      (onSelect)="refreshSettingsTable()"
+                      (onDeSelect)="refreshSettingsTable()"
+                      (onSelectAll)="refreshSettingsTable()"
+                      (onDeSelectAll)="refreshSettingsTable()">
+
+</angular2-multiselect>
+<h2>Клиенты
+  <button type="button" class="btn btn-primary refresh-btn" (click)="refreshTableData()">
+    <span class="fa fa-refresh"></span> Обновить
+  </button></h2>
+<ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onClientSelect($event)"></ng2-smart-table>

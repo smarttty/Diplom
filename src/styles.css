@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import './assets/font-awesome/fontawesome.min.css';
+.refresh-btn{
+  float: right;
+  margin-top: 10px;
+}
