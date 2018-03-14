@@ -13,6 +13,7 @@ import { ClientinfoComponent } from './clientinfo/clientinfo.component';
 import { SearchComponent } from './search/search.component';
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 import {FormsModule} from "@angular/forms";
+import {DropdownModule} from "ng2-dropdown";
 
 const appRoutes: Routes = [
   { path: 'apstat', component: ApstatComponent },

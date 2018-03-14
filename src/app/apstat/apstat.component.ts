@@ -13,6 +13,8 @@ import {Router} from "@angular/router";
 export class ApstatComponent implements OnInit, OnDestroy {
 
   //table settings
+  perPage: number = 20;
+  perPageArray = [{name: '5', value: 5},{name: '10', value: 10},{name: '20', value: 20},{name: '50', value: 50},{name: '100', value: 100},{name: '200', value: 200}];
   settings = {
     columns: {},
     actions: {
@@ -21,7 +23,8 @@ export class ApstatComponent implements OnInit, OnDestroy {
       delete: false,
     },
     pager:{
-      perPage:20,
+      display: true,
+      perPage: this.perPage,
     }
 
   };
@@ -100,11 +103,18 @@ export class ApstatComponent implements OnInit, OnDestroy {
   public source = new LocalDataSource();
   constructor(private http:Http, public dt : DataproviderService, private router: Router) {
     if(localStorage.getItem('apstat_table_settings')===null) {
-      this.refreshSettingsTable();
+      this.refreshTableColumns();
     }
     else{
       this.visible_properties = JSON.parse(localStorage.getItem('apstat_table_settings'));
-      this.refreshSettingsTable();
+      this.refreshTableColumns();
+    }
+    if(localStorage.getItem('apstat_table_perPage')===null) {
+      this.refreshTablePerPage();
+    }
+    else{
+      this.perPage = JSON.parse(localStorage.getItem('apstat_table_perPage'));
+      this.refreshTablePerPage();
     }
   }
 
@@ -134,7 +144,7 @@ export class ApstatComponent implements OnInit, OnDestroy {
     this.selectedAp = $event.data;
     this.router.navigate(["apinfo/"+this.selectedAp.bsnAPName]);
   }
-  refreshSettingsTable(){
+  refreshTableColumns(){
     var newSettings = this.settings;
     var set_columns = {};
     var $this = this;
@@ -144,6 +154,15 @@ export class ApstatComponent implements OnInit, OnDestroy {
     newSettings.columns = set_columns;
     this.settings = Object.assign({},newSettings);
     localStorage.setItem('apstat_table_settings', JSON.stringify(this.visible_properties));
+  }
+  refreshTablePerPage(){
+    console.log(this.perPage);
+    var newSettings = this.settings;
+    newSettings.pager.perPage = this.perPage;
+    this.settings = Object.assign({},newSettings);
+    localStorage.setItem('apstat_table_perPage', JSON.stringify(this.perPage));
+    this.source.refresh();
+
   }
   public refreshTableData(){
     this.dt.getApStat().then(ApArray => {

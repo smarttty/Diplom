@@ -1,10 +1,10 @@
 <angular2-multiselect [data]="ap_properties"
                       [(ngModel)]="visible_properties"
                       [settings]="dropdownSettings"
-                      (onSelect)="refreshSettingsTable()"
-                      (onDeSelect)="refreshSettingsTable()"
-                      (onSelectAll)="refreshSettingsTable()"
-                      (onDeSelectAll)="refreshSettingsTable()">
+                      (onSelect)="refreshTableColumns()"
+                      (onDeSelect)="refreshTableColumns()"
+                      (onSelectAll)="refreshTableColumns()"
+                      (onDeSelectAll)="refreshTableColumns()">
 
 </angular2-multiselect>
   <h2>Точки доступа
@@ -12,3 +12,7 @@
       <span class="fa fa-refresh"></span> Обновить
     </button></h2>
 <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onApSelect($event)"></ng2-smart-table>
+<select [(ngModel)]="perPage" (change)="refreshTablePerPage()" class="form-control">
+  <option *ngFor="let pager of perPageArray" [ngValue]="pager.value">{{pager.name}}</option>
+</select>
+

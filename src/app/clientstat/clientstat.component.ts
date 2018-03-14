@@ -112,7 +112,6 @@ export class ClientstatComponent implements OnInit {
       this.refreshSettingsTable();
     }
     else{
-      console.log(JSON.parse(localStorage.getItem('clientstat_table_settings')));
       this.visible_properties = JSON.parse(localStorage.getItem('clientstat_table_settings'));
       this.refreshSettingsTable();
     }
@@ -124,7 +123,6 @@ export class ClientstatComponent implements OnInit {
       this.data = ClientArray;
       this.dt.clients = ClientArray;
       this.source.load(this.data);
-      console.log(ClientArray);
     }, reason => {
       alert("Контроллер не отвечает");
     });
@@ -159,7 +157,6 @@ export class ClientstatComponent implements OnInit {
       this.dt.clients = ClientArray;
       this.source.load(this.data);
       this.source.refresh();
-      console.log(ClientArray);
     }, reason => {
       alert("Контроллер не отвечает");
     });

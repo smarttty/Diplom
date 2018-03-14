@@ -1,5 +1,6 @@
-<ul>
+<ul *ngIf="apClients !== undefined">
   <li *ngFor="let prop of apProperties">
     {{prop}}:{{ap[prop]}}
   </li>
 </ul>
+<ng2-smart-table [settings]="settings" [source]="apClients"></ng2-smart-table>

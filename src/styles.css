@@ -4,3 +4,10 @@
   float: right;
   margin-top: 10px;
 }
+select.form-control {
+  width: 75px;
+  float: right;
+  position: relative;
+  top: -55px;
+  right: 75px;
+}
