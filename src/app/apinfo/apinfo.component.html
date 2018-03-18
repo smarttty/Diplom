@@ -20,4 +20,4 @@
 <select [(ngModel)]="perPage" (change)="refreshTablePerPage()" class="form-control">
   <option *ngFor="let pager of perPageArray" [ngValue]="pager.value">{{pager.name}}</option>
 </select>
-<ng2-smart-table [settings]="settings" [source]="apClients"></ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source]="apClients" (userRowSelect)="onClientSelect($event)"></ng2-smart-table>

@@ -1,3 +1,21 @@
-<p>
-  clientinfo works!
-</p>
+<h2>Клиент {{clientMac}}
+  <button type="button" class="btn btn-primary refresh-btn" (click)="refreshAllData()">
+    <span class="fa fa-refresh"></span> Обновить
+  </button>
+</h2>
+<ul *ngIf="client !== undefined">
+  <li *ngFor="let prop of clientProperties">
+    {{prop}}:{{client[prop]}}
+  </li>
+</ul>
+<angular2-multiselect
+  [data]="ap_properties"
+  [(ngModel)]="visible_properties"
+  [settings]="dropdownSettings"
+  (onSelect)="refreshTableColumns()"
+  (onDeSelect)="refreshTableColumns()"
+  (onSelectAll)="refreshTableColumns()"
+  (onDeSelectAll)="refreshTableColumns()">
+</angular2-multiselect>
+<ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onApSelect($event)"></ng2-smart-table>
+

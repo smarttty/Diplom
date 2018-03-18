@@ -167,6 +167,7 @@ export class ApstatComponent implements OnInit {
     newSettings.pager.perPage = this.perPage;
     this.settings = Object.assign({}, newSettings);
     localStorage.setItem('apstat_table_perPage', JSON.stringify(this.perPage));
+    this.refreshTableData();
   }
 
   public refreshTableData() {

@@ -113,7 +113,7 @@ export class ApinfoComponent implements OnInit {
     {'id': 34, 'item': 'bsnMobileStationStatusCode', 'itemName': 'Код статуса'},
   ];
   public source = new LocalDataSource();
-
+  private selectedClient : string = null;
   constructor(private router: Router, private route: ActivatedRoute, public dt: DataproviderService) {
     if (localStorage.getItem('apinfo_client_table_settings') !== null) {
       this.visible_properties = JSON.parse(localStorage.getItem('apinfo_client_table_settings'));
@@ -170,6 +170,7 @@ export class ApinfoComponent implements OnInit {
     newSettings.pager.perPage = this.perPage;
     this.settings = Object.assign({}, newSettings);
     localStorage.setItem('apinfo_client_table_perPage', JSON.stringify(this.perPage));
+    this.refreshAllData();
   }
 
   public refreshAllData() {
@@ -192,4 +193,12 @@ export class ApinfoComponent implements OnInit {
           });
       });
   }
+  onClientSelect($event) {
+    console.log($event);
+    if(this.selectedClient == $event.data.bsnMobileStationMacAddress) {
+      this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ","g"),'_')]);
+    }
+    this.selectedClient = $event.data.bsnMobileStationMacAddress;
+  }
+
 }

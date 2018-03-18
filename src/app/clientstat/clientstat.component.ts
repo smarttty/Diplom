@@ -30,7 +30,7 @@ export class ClientstatComponent implements OnInit {
 
   };
   data = [];
-  selectedClient: any;
+  selectedClient: string = null;
   dropdownSettings = {};
   public source = new LocalDataSource();
   public visible_properties = [{'id': 0, 'item': 'bsnMobileStationMacAddress', 'itemName': 'MAC-адрес'},
@@ -143,8 +143,11 @@ export class ClientstatComponent implements OnInit {
   }
 
   onClientSelect($event) {
-    this.selectedClient = $event.data;
-    this.router.navigate(["clientinfo/" + this.selectedClient.bsnMobileStationUserName]);
+    console.log($event);
+    if(this.selectedClient == $event.data.bsnMobileStationMacAddress) {
+      this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ","g"),'_')]);
+    }
+    this.selectedClient = $event.data.bsnMobileStationMacAddress;
   }
 
   refreshTableColumns() {

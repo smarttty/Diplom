@@ -19,6 +19,7 @@ const appRoutes: Routes = [
   { path: 'apstat', component: ApstatComponent },
   {path: '', pathMatch:'full', redirectTo: 'apstat' },
   { path: 'apinfo/:name', component: ApinfoComponent },
+  { path: 'clientinfo/:mac', component: ClientinfoComponent },
   {path: 'clients', component: ClientstatComponent}
 ];
 
