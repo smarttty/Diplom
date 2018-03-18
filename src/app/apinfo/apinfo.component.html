@@ -1,6 +1,23 @@
+<h2>Точка доступа {{apName}}
+  <button type="button" class="btn btn-primary refresh-btn" (click)="refreshAllData()">
+    <span class="fa fa-refresh"></span> Обновить
+  </button>
+</h2>
 <ul *ngIf="apClients !== undefined">
   <li *ngFor="let prop of apProperties">
     {{prop}}:{{ap[prop]}}
   </li>
 </ul>
+<angular2-multiselect
+  [data]="client_properties"
+  [(ngModel)]="visible_properties"
+  [settings]="dropdownSettings"
+  (onSelect)="refreshTableColumns()"
+  (onDeSelect)="refreshTableColumns()"
+  (onSelectAll)="refreshTableColumns()"
+  (onDeSelectAll)="refreshTableColumns()">
+</angular2-multiselect>
+<select [(ngModel)]="perPage" (change)="refreshTablePerPage()" class="form-control">
+  <option *ngFor="let pager of perPageArray" [ngValue]="pager.value">{{pager.name}}</option>
+</select>
 <ng2-smart-table [settings]="settings" [source]="apClients"></ng2-smart-table>

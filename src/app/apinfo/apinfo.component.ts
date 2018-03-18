@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataproviderService} from "../providers/dataprovider.service";
 import {Router, ActivatedRoute} from "@angular/router";
 import {LocalDataSource} from "ng2-smart-table";
@@ -10,10 +10,15 @@ import {LocalDataSource} from "ng2-smart-table";
 })
 export class ApinfoComponent implements OnInit {
 
-  public ap : any;
-  private apName : string;
+  public ap: any;
+  public apName: string;
   public apProperties: any;
   public apClients: any;
+  perPage: number = 20;
+  perPageArray = [{name: '5', value: 5}, {name: '10', value: 10}, {name: '20', value: 20}, {
+    name: '50',
+    value: 50
+  }, {name: '100', value: 100}, {name: '200', value: 200}];
   settings = {
     columns: {},
     actions: {
@@ -26,6 +31,7 @@ export class ApinfoComponent implements OnInit {
     }
 
   };
+  dropdownSettings = {};
   public client_properties = [{'id': 0, 'item': 'bsnMobileStationMacAddress', 'itemName': 'MAC-адрес'},
     {'id': 1, 'item': 'bsnMobileStationIpAddress', 'itemName': 'IP-адрес'},
     {'id': 2, 'item': 'bsnMobileStationUserName', 'itemName': 'Имя пользователя'},
@@ -107,8 +113,21 @@ export class ApinfoComponent implements OnInit {
     {'id': 34, 'item': 'bsnMobileStationStatusCode', 'itemName': 'Код статуса'},
   ];
   public source = new LocalDataSource();
+
   constructor(private router: Router, private route: ActivatedRoute, public dt: DataproviderService) {
-    this.refreshSettingsTable();
+    if (localStorage.getItem('apinfo_client_table_settings') !== null) {
+      this.visible_properties = JSON.parse(localStorage.getItem('apinfo_client_table_settings'));
+    }
+    else if (localStorage.getItem('clientstat_table_settings') !== null) {
+      this.visible_properties = JSON.parse(localStorage.getItem('clientstat_table_settings'));
+    }
+    this.refreshTableColumns();
+    this.dropdownSettings = {
+      text: "Отображаемые столбцы",
+      selectAllText: 'Выбрать все',
+      unSelectAllText: 'Убрать',
+      pullRight: true,
+    }
   }
 
   ngOnInit() {
@@ -117,23 +136,24 @@ export class ApinfoComponent implements OnInit {
     var $this = this;
     this.dt.getApStat()
       .then(
-      ApArray => {
-        $this.ap = ApArray.filter(function (obj) {
-          return obj.bsnAPName == $this.apName;
-        })[0];
-        return $this.ap;
-      })
+        ApArray => {
+          $this.ap = ApArray.filter(function (obj) {
+            return obj.bsnAPName == $this.apName;
+          })[0];
+          return $this.ap;
+        })
       .then(ap => {
-      $this.dt.getClientStat()
-        .then(ClientArray => {
-          $this.apClients = ClientArray.filter(function (obj) {
-            return obj.bsnMobileStationAPMacAddr == ap.bsnAPDot3MacAddress
+        $this.dt.getClientStat()
+          .then(ClientArray => {
+            $this.apClients = ClientArray.filter(function (obj) {
+              return obj.bsnMobileStationAPMacAddr == ap.bsnAPDot3MacAddress
+            });
+            this.source.load(this.apClients);
           });
-          this.source.load(this.apClients);
-    });
-  });
+      });
   }
-  refreshSettingsTable() {
+
+  refreshTableColumns() {
     var newSettings = this.settings;
     var set_columns = {};
     var $this = this;
@@ -143,5 +163,33 @@ export class ApinfoComponent implements OnInit {
     newSettings.columns = set_columns;
     this.settings = Object.assign({}, newSettings);
     localStorage.setItem('apinfo_client_table_settings', JSON.stringify(this.visible_properties));
+  }
+
+  refreshTablePerPage() {
+    var newSettings = this.settings;
+    newSettings.pager.perPage = this.perPage;
+    this.settings = Object.assign({}, newSettings);
+    localStorage.setItem('apinfo_client_table_perPage', JSON.stringify(this.perPage));
+  }
+
+  public refreshAllData() {
+    var $this = this;
+    this.dt.getApStat()
+      .then(
+        ApArray => {
+          $this.ap = ApArray.filter(function (obj) {
+            return obj.bsnAPName == $this.apName;
+          })[0];
+          return $this.ap;
+        })
+      .then(ap => {
+        $this.dt.getClientStat()
+          .then(ClientArray => {
+            $this.apClients = ClientArray.filter(function (obj) {
+              return obj.bsnMobileStationAPMacAddr == ap.bsnAPDot3MacAddress
+            });
+            this.source.load(this.apClients);
+          });
+      });
   }
 }

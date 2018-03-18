@@ -7,12 +7,14 @@
                       (onDeSelectAll)="refreshTableColumns()">
 
 </angular2-multiselect>
-  <h2>Точки доступа
-    <button type="button" class="btn btn-primary refresh-btn" (click)="refreshTableData()">
-      <span class="fa fa-refresh"></span> Обновить
-    </button></h2>
+<h2>Точки доступа
+  <select [(ngModel)]="perPage" (change)="refreshTablePerPage()" class="form-control">
+    <option *ngFor="let pager of perPageArray" [ngValue]="pager.value">{{pager.name}}</option>
+  </select>
+  <button type="button" class="btn btn-primary refresh-btn" (click)="refreshTableData()">
+    <span class="fa fa-refresh"></span> Обновить
+  </button>
+</h2>
 <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onApSelect($event)"></ng2-smart-table>
-<select [(ngModel)]="perPage" (change)="refreshTablePerPage()" class="form-control">
-  <option *ngFor="let pager of perPageArray" [ngValue]="pager.value">{{pager.name}}</option>
-</select>
+
 

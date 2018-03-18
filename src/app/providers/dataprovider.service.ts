@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
+
 @Injectable()
 export class DataproviderService {
 
-  constructor(private http : Http) { }
+  constructor(private http: Http) {
+  }
 
-  public selectedAp : any;
-  public aps : any;
-  public ap_properties=['bsnAPDot3MacAddress',
+  public selectedAp: any;
+  public aps: any;
+  public ap_properties = ['bsnAPDot3MacAddress',
 
     'bsnAPNumOfSlots',
 
@@ -68,7 +70,7 @@ export class DataproviderService {
     'bsnAPEthernetMacAddress',
 
     'bsnAPAdminStatus'];
-  public client_properties=['bsnMobileStationMacAddress',
+  public client_properties = ['bsnMobileStationMacAddress',
 
     'bsnMobileStationIpAddress',
 
@@ -138,9 +140,10 @@ export class DataproviderService {
 
     'bsnMobileStationStatusCode'];
   public clients: any;
-  public getApStat() : Promise<any>{
+
+  public getApStat(): Promise<any> {
     var $this = this;
-    return this.http.get('http://212.192.88.199:800/snmp_show.php',).toPromise().then(function(response){
+    return this.http.get('http://212.192.88.199:800/snmp_show.php',).toPromise().then(function (response) {
       var ApEntryTemp = response.json();
       var i = 0;
 
@@ -150,20 +153,21 @@ export class DataproviderService {
       var numberAps = i;
       var numberParam = ApEntryTemp.length / numberAps;
       var ap = {};
-      var ApArray=[];
+      var ApArray = [];
       for (let i = 0; i < numberAps; i++) {
-        for (let j = 0;j < numberParam;j++) {
-          ap[$this.ap_properties[j]] = ApEntryTemp[i + j * numberAps].split(':')[1];
+        for (let j = 0; j < numberParam; j++) {
+          ap[$this.ap_properties[j]] = ApEntryTemp[i + j * numberAps].replace(new RegExp('"', 'g'), '').split(': ')[1];
         }
         ApArray.push(ap);
-        ap={};
+        ap = {};
       }
       return ApArray
     })
   }
-  public getClientStat() : Promise<any>{
+
+  public getClientStat(): Promise<any> {
     var $this = this;
-    return this.http.get('http://212.192.88.199:800/snmp_clients.php').toPromise().then(function(response){
+    return this.http.get('http://212.192.88.199:800/snmp_clients.php').toPromise().then(function (response) {
 
       var ClientEntryTemp = response.json();
       var i = 0;
@@ -173,13 +177,13 @@ export class DataproviderService {
       var numberAps = i;
       var numberParam = ClientEntryTemp.length / numberAps;
       var client = {};
-      var ClientArray=[];
+      var ClientArray = [];
       for (let i = 0; i < numberAps; i++) {
-        for (let j = 0;j < numberParam;j++) {
-          client[$this.client_properties[j]] = ClientEntryTemp[i + j * numberAps].split(':')[1];
+        for (let j = 0; j < numberParam; j++) {
+          client[$this.client_properties[j]] = ClientEntryTemp[i + j * numberAps].replace(new RegExp('"', 'g'), '').split(': ')[1];
         }
         ClientArray.push(client);
-        client={};
+        client = {};
       }
       return ClientArray
     })

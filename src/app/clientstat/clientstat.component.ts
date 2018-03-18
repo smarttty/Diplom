@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataproviderService} from "../providers/dataprovider.service";
 import {Router} from "@angular/router";
 import {LocalDataSource, Ng2SmartTableModule} from 'ng2-smart-table';
+
 @Component({
   selector: 'app-clientstat',
   templateUrl: './clientstat.component.html',
@@ -9,6 +10,12 @@ import {LocalDataSource, Ng2SmartTableModule} from 'ng2-smart-table';
 })
 export class ClientstatComponent implements OnInit {
 
+
+  perPage: number = 20;
+  perPageArray = [{name: '5', value: 5}, {name: '10', value: 10}, {name: '20', value: 20}, {
+    name: '50',
+    value: 50
+  }, {name: '100', value: 100}, {name: '200', value: 200}];
 
   settings = {
     columns: {},
@@ -108,13 +115,14 @@ export class ClientstatComponent implements OnInit {
   ];
 
   constructor(public dt: DataproviderService, private router: Router) {
-    if(localStorage.getItem('clientstat_table_settings')===null) {
-      this.refreshSettingsTable();
-    }
-    else{
+    if (localStorage.getItem('clientstat_table_settings') !== null) {
       this.visible_properties = JSON.parse(localStorage.getItem('clientstat_table_settings'));
-      this.refreshSettingsTable();
     }
+    this.refreshTableColumns();
+    if (localStorage.getItem('clientstat_table_perPage') !== null) {
+      this.perPage = JSON.parse(localStorage.getItem('clientstat_table_perPage'));
+    }
+    this.refreshTablePerPage();
   }
 
   ngOnInit() {
@@ -139,7 +147,7 @@ export class ClientstatComponent implements OnInit {
     this.router.navigate(["clientinfo/" + this.selectedClient.bsnMobileStationUserName]);
   }
 
-  refreshSettingsTable() {
+  refreshTableColumns() {
     var newSettings = this.settings;
     var set_columns = {};
     var $this = this;
@@ -161,5 +169,12 @@ export class ClientstatComponent implements OnInit {
       alert("Контроллер не отвечает");
     });
 
+  }
+
+  refreshTablePerPage() {
+    var newSettings = this.settings;
+    newSettings.pager.perPage = this.perPage;
+    this.settings = Object.assign({}, newSettings);
+    localStorage.setItem('clientstat_table_perPage', JSON.stringify(this.perPage));
   }
 }
