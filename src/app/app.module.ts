@@ -13,16 +13,27 @@ import { ClientinfoComponent } from './clientinfo/clientinfo.component';
 import { SearchComponent } from './search/search.component';
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 import {FormsModule} from "@angular/forms";
-import {DropdownModule} from "ng2-dropdown";
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireModule } from 'angularfire2';
+import {AuthService} from './providers/auth.service';
+import { UserLoginComponent } from './user-login/user-login.component'
 
 const appRoutes: Routes = [
-  { path: 'apstat', component: ApstatComponent },
-  {path: '', pathMatch:'full', redirectTo: 'apstat' },
-  { path: 'apinfo/:name', component: ApinfoComponent },
-  { path: 'clientinfo/:mac', component: ClientinfoComponent },
-  {path: 'clients', component: ClientstatComponent}
+  { path: 'apstat', component: ApstatComponent, canActivate:[AuthService] },
+  {path: '', pathMatch:'full', redirectTo: 'apstat',   },
+  { path: 'apinfo/:name', component: ApinfoComponent,canActivate:[AuthService] },
+  { path: 'clientinfo/:mac', component: ClientinfoComponent,canActivate:[AuthService] },
+  {path: 'clients', component: ClientstatComponent,canActivate:[AuthService] },
+  {path: 'login', component: UserLoginComponent}
 ];
-
+export const firebaseconfig = {
+  apiKey: "AIzaSyCAcmKVrI9A9-83FbkDuXATEUnnRbszIf0",
+  authDomain: "pgniu-controller.firebaseapp.com",
+  databaseURL: "https://pgniu-controller.firebaseio.com",
+  projectId: "pgniu-controller",
+  storageBucket: "pgniu-controller.appspot.com",
+  messagingSenderId: "684972469158"
+};
 
 @NgModule({
   declarations: [
@@ -32,15 +43,22 @@ const appRoutes: Routes = [
     ApinfoComponent,
     ClientstatComponent,
     ClientinfoComponent,
-    SearchComponent
+    SearchComponent,
+    UserLoginComponent
   ],
   imports: [
-    BrowserModule, HttpModule,AngularMultiSelectModule,
-    Ng2SmartTableModule,RouterModule.forRoot(
+    BrowserModule,
+    HttpModule,
+    AngularMultiSelectModule,
+    Ng2SmartTableModule,
+    RouterModule.forRoot(
       appRoutes
-    ), FormsModule
+    ),
+    FormsModule,
+    AngularFireModule.initializeApp(firebaseconfig),
+    AngularFireAuthModule
   ],
-  providers: [DataproviderService,],
+  providers: [DataproviderService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

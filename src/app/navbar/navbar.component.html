@@ -26,12 +26,18 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Карта покрытия WI-FI</a>
+        <a class="nav-link disabled">Карта покрытия WI-FI</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Поиск.." aria-label="Поиск">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+      <button [disabled]="true" class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
     </form>
+  </div>
+  <div class="logout" *ngIf="authService.user | async">
+    <h6>{{(authService.user | async)?.email.split('@')[0]}}</h6>
+    <button class="btn btn btn-primary my-2 my-sm-0" (click)="logout()"><i class="fa fa-sign-out"></i>
+      Выйти
+    </button>
   </div>
 </nav>

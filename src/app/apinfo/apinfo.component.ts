@@ -194,11 +194,7 @@ export class ApinfoComponent implements OnInit {
       });
   }
   onClientSelect($event) {
-    console.log($event);
-    if(this.selectedClient == $event.data.bsnMobileStationMacAddress) {
       this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ","g"),'_')]);
-    }
-    this.selectedClient = $event.data.bsnMobileStationMacAddress;
   }
 
 }

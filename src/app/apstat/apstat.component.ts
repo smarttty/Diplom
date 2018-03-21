@@ -5,6 +5,7 @@ import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 import {DataproviderService} from '../providers/dataprovider.service';
 import {Router} from "@angular/router";
 import {componentRefresh} from "@angular/core/src/render3/instructions";
+import {AuthService} from "../providers/auth.service";
 
 @Component({
   selector: 'app-apstat',
@@ -36,7 +37,6 @@ export class ApstatComponent implements OnInit {
   //dropdown settings
   dropdownSettings = {};
 
-  selectedAp: string = null;
   public visible_properties = [{'id': 0, 'item': 'bsnAPDot3MacAddress', 'itemName': 'MAC-адрес'},
     {'id': 1, 'item': 'bsnAPNumOfSlots', 'itemName': 'Количество интерфейсов'},
     {'id': 2, 'item': 'bsnAPName', 'itemName': 'Название'},
@@ -107,7 +107,7 @@ export class ApstatComponent implements OnInit {
   public source = new LocalDataSource();
 
 
-  constructor(private http: Http, public dt: DataproviderService, private router: Router) {
+  constructor(private http: Http, public dt: DataproviderService, private router: Router, public authService : AuthService) {
     if (localStorage.getItem('apstat_table_settings') === null) {
       this.refreshTableColumns();
     }
@@ -144,10 +144,7 @@ export class ApstatComponent implements OnInit {
   }
 
   onApSelect($event) {
-    if($event.data.bsnAPName == this.selectedAp) {
       this.router.navigate(["apinfo/" + $event.data.bsnAPName]);
-    }
-    this.selectedAp = $event.data.bsnAPName;
   }
 
   refreshTableColumns() {

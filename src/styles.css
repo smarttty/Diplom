@@ -12,3 +12,14 @@ select.form-control {
   float: right;
   margin-top: 10px;
 }
+
+.logout{
+  display: inline-flex;
+  right: 0px;
+}
+.logout > h6{
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 5px;
+
+}
