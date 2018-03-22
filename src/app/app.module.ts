@@ -16,7 +16,9 @@ import {FormsModule} from "@angular/forms";
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import {AuthService} from './providers/auth.service';
-import { UserLoginComponent } from './user-login/user-login.component'
+import { UserLoginComponent } from './user-login/user-login.component';
+import {MessagingService} from "./providers/messaging.service";
+import {AngularFireDatabase} from 'angularfire2/database';
 
 const appRoutes: Routes = [
   { path: 'apstat', component: ApstatComponent, canActivate:[AuthService] },
@@ -58,7 +60,7 @@ export const firebaseconfig = {
     AngularFireModule.initializeApp(firebaseconfig),
     AngularFireAuthModule
   ],
-  providers: [DataproviderService,AuthService],
+  providers: [DataproviderService,AuthService,MessagingService,AngularFireDatabase],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

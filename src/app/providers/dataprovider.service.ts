@@ -143,7 +143,7 @@ export class DataproviderService {
 
   public getApStat(): Promise<any> {
     var $this = this;
-    return this.http.get('http://212.192.88.199:800/snmp_show.php',).toPromise().then(function (response) {
+    return this.http.get('http://212.192.88.199/snmp_show.php',).toPromise().then(function (response) {
       var ApEntryTemp = response.json();
       var i = 0;
 
@@ -167,7 +167,7 @@ export class DataproviderService {
 
   public getClientStat(): Promise<any> {
     var $this = this;
-    return this.http.get('http://212.192.88.199:800/snmp_clients.php').toPromise().then(function (response) {
+    return this.http.get('http://212.192.88.199/snmp_clients.php').toPromise().then(function (response) {
 
       var ClientEntryTemp = response.json();
       var i = 0;
