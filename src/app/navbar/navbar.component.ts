@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router'
 import { AuthService } from '../providers/auth.service';
+import {ReactiveFormsModule,FormsModule,FormGroup, FormControl} from "@angular/forms";
+
 @Component({
   selector: 'navbar',
   templateUrl: './navbar.component.html',
@@ -17,6 +19,9 @@ export class NavbarComponent implements OnInit {
   }
   logout() {
     this.authService.logout();
+  }
+  search(form){
+    console.log(form.value);
   }
 
 }

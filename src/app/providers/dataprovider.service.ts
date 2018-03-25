@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, RequestMethod, RequestOptions, Headers} from '@angular/http';
+import {Building} from "../model/building";
 
 @Injectable()
 export class DataproviderService {
@@ -187,6 +188,42 @@ export class DataproviderService {
       }
       return ClientArray
     })
+  }
+  public addBuilding(building : Building) : Promise<any>{
+
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
+    let options = new RequestOptions( {method: RequestMethod.Post, headers: headers });
+
+    let body = this.serializeObj(building);
+    return this.http.post('http://212.192.88.199/buildings.php', body, options).toPromise().then(res=> {
+      return res.ok;
+      }
+    )
+  }
+  public addFloor(building : Building) : Promise<any>{
+
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
+    let options = new RequestOptions( {method: RequestMethod.Post, headers: headers });
+
+    let body = this.serializeObj(building);
+    return this.http.post('http://212.192.88.199/buildings.php', body, options).toPromise().then(res=> {
+        return res.ok;
+      }
+    )
+  }
+  private serializeObj(obj) {
+    var result = [];
+    for (var property in obj)
+      result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+
+    return result.join("&");
+  }
+
+  public getAllBuildings() : Promise<any>{
+    return this.http.get('http://212.192.88.199/buildings.php').toPromise().then(res=> {
+        return JSON.parse(res.text());
+      }
+    )
   }
 
 

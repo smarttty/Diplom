@@ -19,6 +19,9 @@ import {AuthService} from './providers/auth.service';
 import { UserLoginComponent } from './user-login/user-login.component';
 import {MessagingService} from "./providers/messaging.service";
 import {AngularFireDatabase} from 'angularfire2/database';
+import { BuildingsComponent } from './buildings/buildings.component';
+import { BuildingComponent } from './building/building.component';
+import { InputFileModule } from 'ngx-input-file';
 
 const appRoutes: Routes = [
   { path: 'apstat', component: ApstatComponent, canActivate:[AuthService] },
@@ -26,7 +29,10 @@ const appRoutes: Routes = [
   { path: 'apinfo/:name', component: ApinfoComponent,canActivate:[AuthService] },
   { path: 'clientinfo/:mac', component: ClientinfoComponent,canActivate:[AuthService] },
   {path: 'clients', component: ClientstatComponent,canActivate:[AuthService] },
-  {path: 'login', component: UserLoginComponent}
+  {path: 'login', component: UserLoginComponent},
+  {path: 'buildings', component: BuildingsComponent},
+  {path: 'building/:id', component: BuildingComponent},
+  {path: 'search?query=:query', component: SearchComponent}
 ];
 export const firebaseconfig = {
   apiKey: "AIzaSyCAcmKVrI9A9-83FbkDuXATEUnnRbszIf0",
@@ -46,7 +52,9 @@ export const firebaseconfig = {
     ClientstatComponent,
     ClientinfoComponent,
     SearchComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    BuildingsComponent,
+    BuildingComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +66,8 @@ export const firebaseconfig = {
     ),
     FormsModule,
     AngularFireModule.initializeApp(firebaseconfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    InputFileModule
   ],
   providers: [DataproviderService,AuthService,MessagingService,AngularFireDatabase],
   bootstrap: [AppComponent]

@@ -30,6 +30,7 @@
     "net-snmp": "^1.2.2",
     "ng2-dropdown": "0.0.21",
     "ng2-smart-table": "^1.2.2",
+    "ngx-input-file": "^1.0.2",
     "popper.js": "^1.14.1",
     "rxjs": "^5.5.6",
     "snmp-native": "^1.1.1",

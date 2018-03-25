@@ -1,0 +1,18 @@
+<button *ngIf="!addNew" class="btn btn-success" style="margin-left: 10px" (click)="addNewClick()">
+  <i class="fas fa-plus"></i> Добавить здание
+</button>
+<button *ngIf="addNew" class="btn btn-danger" style="margin-left: 10px" (click)="notAddNewClick()">
+  <i class="fas fa-minus"></i> Закрыть
+</button>
+<div *ngIf="addNew" style="width: 500px; margin-top: 10px;margin-left: 10px">
+  <form (submit)="submitBuilding()">
+    <div class="form-group">
+      <label for="Name">Название</label>
+      <input [(ngModel)]="model.name" type="text" class="form-control" id="Name" name="name" aria-describedby="NameHelp"
+             placeholder="Пример: Корпус №2" required>
+      <small id="NameHelp" class="form-text text-muted">Название корпуса/строения</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+  </form>
+</div>
+<ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onBuildingSelect($event)"></ng2-smart-table>

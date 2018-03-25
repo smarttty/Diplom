@@ -1,0 +1,29 @@
+<button *ngIf="!addNew" class="btn btn-success" style="margin-left: 10px" (click)="addNewClick()">
+  <i class="fas fa-plus"></i> Добавить этаж
+</button>
+<button *ngIf="addNew" class="btn btn-danger" style="margin-left: 10px" (click)="notAddNewClick()">
+  <i class="fas fa-minus"></i> Закрыть
+</button>
+<div *ngIf="addNew" style="width: 500px; margin-top: 10px;margin-left: 10px">
+  <form (submit)="submitFloor()">
+    <div class="form-group">
+      <label for="Name">Название</label>
+      <input  [(ngModel)]="model.Name" type="text" class="form-control" id="Name" name="name" aria-describedby="NameHelp"
+             placeholder="Пример: Этаж №2" required>
+      <small id="NameHelp" class="form-text text-muted">Название этажа</small>
+    </div>
+
+    <div class="form-group">
+      <label for="image">План этажа</label>
+      <input-file id="image"
+                  inputId="floors"
+                  inputAccept="image/*"
+                  inputMaxFiles="1"
+                  [(model)]="inputFileModel"
+                  [textBrowse]="">
+      </input-file>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+  </form>
+</div>
+
