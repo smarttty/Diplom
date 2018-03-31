@@ -25,7 +25,8 @@ export class ClientstatComponent implements OnInit {
       delete: false,
     },
     pager: {
-      perPage: 20,
+      display: true,
+      perPage: this.perPage,
     }
 
   };
@@ -158,22 +159,20 @@ export class ClientstatComponent implements OnInit {
     localStorage.setItem('clientstat_table_settings', JSON.stringify(this.visible_properties));
   }
 
-  refreshTableData() {
+  public refreshTableData() {
     this.dt.getClientStat().then(ClientArray => {
       this.data = ClientArray;
-      this.dt.clients = ClientArray;
       this.source.load(this.data);
       this.source.refresh();
     }, reason => {
       alert("Контроллер не отвечает");
     });
-
   }
-
   refreshTablePerPage() {
     var newSettings = this.settings;
     newSettings.pager.perPage = this.perPage;
     this.settings = Object.assign({}, newSettings);
+    this.source.setPaging(1, this.perPage, true);
     localStorage.setItem('clientstat_table_perPage', JSON.stringify(this.perPage));
   }
 }

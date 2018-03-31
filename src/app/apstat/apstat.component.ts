@@ -159,24 +159,20 @@ export class ApstatComponent implements OnInit {
     localStorage.setItem('apstat_table_settings', JSON.stringify(this.visible_properties));
   }
 
-  refreshTablePerPage() {
-    var newSettings = this.settings;
-    newSettings.pager.perPage = this.perPage;
-    this.settings = Object.assign({}, newSettings);
-    localStorage.setItem('apstat_table_perPage', JSON.stringify(this.perPage));
-    this.refreshTableData();
-  }
-
   public refreshTableData() {
     this.dt.getApStat().then(ApArray => {
       this.data = ApArray;
-      this.dt.aps = ApArray;
       this.source.load(this.data);
       this.source.refresh();
-
     }, reason => {
       alert("Контроллер не отвечает");
     });
   }
-
+  refreshTablePerPage() {
+    var newSettings = this.settings;
+    newSettings.pager.perPage = this.perPage;
+    this.settings = Object.assign({}, newSettings);
+    this.source.setPaging(1, this.perPage, true);
+    localStorage.setItem('apstat_table_perPage', JSON.stringify(this.perPage));
+  }
 }

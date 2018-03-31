@@ -196,18 +196,17 @@ export class DataproviderService {
 
     let body = this.serializeObj(building);
     return this.http.post('http://212.192.88.199/buildings.php', body, options).toPromise().then(res=> {
-      return res.ok;
+      return [res.ok,res.text()];
       }
     )
   }
-  public addFloor(building : Building) : Promise<any>{
+  public addFloor(floor : any) : Promise<any>{
 
-    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
+    let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded;'});
     let options = new RequestOptions( {method: RequestMethod.Post, headers: headers });
-
-    let body = this.serializeObj(building);
-    return this.http.post('http://212.192.88.199/buildings.php', body, options).toPromise().then(res=> {
-        return res.ok;
+    var body = this.serializeObj(floor);
+    return this.http.post('http://212.192.88.199/floors.php', body, options).toPromise().then(res=> {
+        return [res.ok, res.text()];
       }
     )
   }
@@ -222,6 +221,16 @@ export class DataproviderService {
   public getAllBuildings() : Promise<any>{
     return this.http.get('http://212.192.88.199/buildings.php').toPromise().then(res=> {
         return JSON.parse(res.text());
+      }
+    )
+  }
+  public getFloors(buildingId) : Promise<any>{
+    return this.http.get('http://212.192.88.199/floors.php').toPromise().then(res=> {
+        var floorsArr = JSON.parse(res.text());
+        floorsArr = floorsArr.filter(item => {
+            return item.buildingId == buildingId.toString();
+        });
+      return floorsArr;
       }
     )
   }

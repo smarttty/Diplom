@@ -34,6 +34,7 @@ export class BuildingsComponent implements OnInit {
     }
 
   };
+  public error : string=null;
   private data : any;
   public source = new LocalDataSource();
   constructor(private dt : DataproviderService, private router : Router) { }
@@ -50,12 +51,16 @@ export class BuildingsComponent implements OnInit {
     this.addNew = false;
   }
   submitBuilding(){
-    this.addNew = false;
-    this.dt.addBuilding(this.model).then(ok=>{
-      if(ok){
+
+    this.dt.addBuilding(this.model).then(res=>{
+      if(res[0] && res[1].indexOf("Ошибка")==-1){
         this.model.name='';
-        this.refreshBuildings();
+        this.addNew = false;
       }
+      else if(res[1].indexOf("Ошибка")!==-1){
+        this.error = res[1];
+      }
+      this.refreshBuildings();
     });
 
   }
@@ -68,6 +73,9 @@ export class BuildingsComponent implements OnInit {
   onBuildingSelect($event){
     if($event.isSelected) {
       this.router.navigate(['building/' + $event.data.id]);
+    }
+    else{
+
     }
   }
 

@@ -16,4 +16,4 @@
   </button>
   <h5>Всего клиентов : {{data.length}}</h5>
 </h2>
-<ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onClientSelect($event)"></ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onClientSelect($event)"></ng2-smart-table>
