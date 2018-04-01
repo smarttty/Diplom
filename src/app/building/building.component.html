@@ -8,14 +8,15 @@
   <form (submit)="submitFloor()">
     <div class="form-group">
       <label for="Name">Название</label>
-      <input  [(ngModel)]="model.Name" type="text" class="form-control" id="Name" name="name" aria-describedby="NameHelp"
+      <input [(ngModel)]="model.Name" type="text" class="form-control" id="Name" name="name" aria-describedby="NameHelp"
              placeholder="Пример: Этаж №2" required>
       <small id="NameHelp" class="form-text text-muted">Название этажа</small>
     </div>
     <div class="form-group">
       <label for="Name">Уровень</label>
-      <input  [(ngModel)]="model.Level" type="number" class="form-control" id="Level" name="Level" aria-describedby="LevelHelp"
-              placeholder="Пример: 1" required>
+      <input [(ngModel)]="model.Level" type="number" class="form-control" id="Level" name="Level"
+             aria-describedby="LevelHelp"
+             placeholder="Пример: 1" required>
       <small id="LevelHelp" class="form-text text-muted">Уровень</small>
     </div>
 
@@ -32,5 +33,13 @@
     <button type="submit" class="btn btn-primary">Создать</button>
   </form>
 </div>
-<ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+<div class="floor" *ngFor="let floor of data">
+  <div *ngIf="!floor.deleted">
+    <h4>{{floor.name}}
+      <button type="button" id="d_{{floor.id}}" class="btn btn-danger" (click)="deleteFloor($event)">Удалить</button>
+    </h4>
+    <h6>Уровень: {{floor.level}}</h6>
+    <img src="{{floor.h_url}}">
+  </div>
+</div>
 

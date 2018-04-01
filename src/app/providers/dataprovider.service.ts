@@ -234,6 +234,11 @@ export class DataproviderService {
       }
     )
   }
+  public delFloor(floorId, plan_url) : Promise<any>{
+    return this.http.delete('http://212.192.88.199/floors.php?id='+floorId+'&link='+plan_url).toPromise().then(res=>{
+      return res;
+    })
+  }
 
 
 }

@@ -74,9 +74,6 @@ export class BuildingsComponent implements OnInit {
     if($event.isSelected) {
       this.router.navigate(['building/' + $event.data.id]);
     }
-    else{
-
-    }
   }
 
 }
