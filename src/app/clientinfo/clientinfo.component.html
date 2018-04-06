@@ -8,6 +8,9 @@
     {{prop}}:{{client[prop]}}
   </li>
 </ul>
+<br>
+<br>
+<label for="Ap"><h5>Точка доступа клиента</h5></label>
 <angular2-multiselect
   [data]="ap_properties"
   [(ngModel)]="visible_properties"
@@ -17,5 +20,10 @@
   (onSelectAll)="refreshTableColumns()"
   (onDeSelectAll)="refreshTableColumns()">
 </angular2-multiselect>
-<ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onApSelect($event)"></ng2-smart-table>
-
+<ng2-smart-table id="Ap" [settings]="settings" [source]="source" (userRowSelect)="onApSelect($event)"></ng2-smart-table>
+<br>
+<br>
+<div class="form-group">
+  <label for="logs"><h5>Логи клиента</h5></label>
+  <textarea class="form-control" id="logs" rows="10">{{logs}}</textarea>
+</div>

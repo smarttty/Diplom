@@ -60,7 +60,7 @@ export class BuildingComponent implements OnInit {
     this.addNew=false;
     this.model.Image = this.inputFileModel[0].icon;
     this.dt.addFloor(this.model).then(ok=>{
-      console.log(ok);
+      console.log(ok[1]);
       this.refreshFloors();
     })
   }

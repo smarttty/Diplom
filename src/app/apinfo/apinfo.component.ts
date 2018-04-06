@@ -14,6 +14,7 @@ export class ApinfoComponent implements OnInit {
   public apName: string;
   public apProperties: any;
   public apClients: any;
+  public apMac: string;
   perPage: number = 20;
   perPageArray = [{name: '5', value: 5}, {name: '10', value: 10}, {name: '20', value: 20}, {
     name: '50',
@@ -114,6 +115,7 @@ export class ApinfoComponent implements OnInit {
   ];
   public source = new LocalDataSource();
   private selectedClient : string = null;
+  public logs : string='';
   constructor(private router: Router, private route: ActivatedRoute, public dt: DataproviderService) {
     if (localStorage.getItem('apinfo_client_table_settings') !== null) {
       this.visible_properties = JSON.parse(localStorage.getItem('apinfo_client_table_settings'));
@@ -140,6 +142,8 @@ export class ApinfoComponent implements OnInit {
           $this.ap = ApArray.filter(function (obj) {
             return obj.bsnAPName == $this.apName;
           })[0];
+          $this.apMac = $this.ap['bsnAPDot3MacAddress'];
+          console.log($this.apMac);
           return $this.ap;
         })
       .then(ap => {
@@ -150,7 +154,10 @@ export class ApinfoComponent implements OnInit {
             });
             this.source.load(this.apClients);
           });
-      });
+      }).then(()=>{
+      this.getLogs();
+    });
+
   }
 
   refreshTableColumns() {
@@ -195,6 +202,20 @@ export class ApinfoComponent implements OnInit {
   }
   onClientSelect($event) {
       this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ","g"),'_')]);
+  }
+  getLogs(){
+    var mac = this.apMac.replace(/ /g, ':');
+    mac = mac.replace(/[A-Z]/g,"$&").toLowerCase();
+    mac=mac.substr(0,mac.length-1);
+    console.log(mac);
+    var $this = this;
+    this.dt.getLogs(mac, 0).then(res=> {
+        res.forEach(function(item){
+          $this.logs+=item[0]+": "+item[1]+"\n";
+        })
+      }
+    );
+    console.log(this.logs);
   }
 
 }

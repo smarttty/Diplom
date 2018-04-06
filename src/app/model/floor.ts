@@ -5,4 +5,11 @@ export class Floor {
   Image: string;
   ImageUrl: string;
   BuildingID : number;
+  UpFloorID: number;
+  DownFloorID: number;
+  PointsUrl : string;
+  WallsUrl: string;
+  Width: number;
+  Height: number;
+  Length: number;
 }

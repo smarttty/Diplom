@@ -118,7 +118,7 @@ export class ClientinfoComponent implements OnInit {
 
   ];
   dropdownSettings = {};
-
+  public logs : string="";
   ngOnInit() {
     var $this = this;
     this.clientMac = this.route.snapshot.params['mac'].replace(new RegExp('_', 'g'), ' ');
@@ -140,7 +140,8 @@ export class ClientinfoComponent implements OnInit {
         this.source.load([this.clientAp]);
       });
 
-    })
+    });
+    this.getLogs();
   }
   refreshTableColumns() {
     var newSettings = this.settings;
@@ -182,5 +183,18 @@ export class ClientinfoComponent implements OnInit {
   }
   onApSelect($event) {
     this.router.navigate(["apinfo/" + $event.data.bsnAPName]);
+  }
+  getLogs(){
+    var mac = this.clientMac.replace(/ /g, ':');
+    mac = mac.replace(/[A-Z]/g,"$&").toLowerCase();
+    mac=mac.substr(0,mac.length-1);
+    console.log(mac);
+    var $this = this;
+    this.dt.getLogs(mac, 0).then(res=> {
+        res.forEach(function(item){
+          $this.logs+=item[0]+": "+item[1]+"\n";
+        })
+      }
+    )
   }
 }

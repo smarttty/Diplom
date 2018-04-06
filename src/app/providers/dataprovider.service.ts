@@ -239,6 +239,12 @@ export class DataproviderService {
       return res;
     })
   }
+  public getLogs(mac, offset){
+    return this.http.get('http://212.192.88.199/logs.php?mac='+mac+'&offset='+offset).toPromise().then(res=>{
+      return JSON.parse(res.text());
+
+    })
+  }
 
 
 }
