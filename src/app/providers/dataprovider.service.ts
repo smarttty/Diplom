@@ -245,6 +245,11 @@ export class DataproviderService {
 
     })
   }
+  public delBuilding(buildId) : Promise<any>{
+    return this.http.delete('http://212.192.88.199/buildings.php?id='+buildId).toPromise().then(res=>{
+      return res;
+    })
+  }
 
 
 }

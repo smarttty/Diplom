@@ -30,6 +30,13 @@ export class ApstatComponent implements OnInit {
     pager: {
       display: true,
       perPage: this.perPage,
+    },
+    rowClassFunction: (row) => {
+      if (row.data.selected === true) {
+        return 'green';
+      } else {
+        return '';
+      }
     }
 
   };
@@ -128,6 +135,9 @@ export class ApstatComponent implements OnInit {
   ngOnInit() {
     var $this = this;
     this.dt.getApStat().then(ApArray => {
+      ApArray.forEach(function(item){
+        item.selected = false;
+      });
       this.data = ApArray;
       this.dt.aps = ApArray;
       this.source.load(this.data);
@@ -144,7 +154,15 @@ export class ApstatComponent implements OnInit {
   }
 
   onApSelect($event) {
+    if($event.data.selected==true) {
       this.router.navigate(["apinfo/" + $event.data.bsnAPName]);
+    }
+    else{
+      this.data.forEach(function(item){
+        item.selected= false;
+      });
+      $event.data.selected=true;
+    }
   }
 
   refreshTableColumns() {
@@ -161,6 +179,9 @@ export class ApstatComponent implements OnInit {
 
   public refreshTableData() {
     this.dt.getApStat().then(ApArray => {
+      ApArray.forEach(function(item){
+        item.selected = false;
+      });
       this.data = ApArray;
       this.source.load(this.data);
       this.source.refresh();

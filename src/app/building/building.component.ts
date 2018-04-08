@@ -3,6 +3,7 @@ import {Floor} from "../model/floor";
 import {Router, ActivatedRoute} from "@angular/router";
 import {DataproviderService} from "../providers/dataprovider.service";
 import {LocalDataSource} from "ng2-smart-table";
+import {isUndefined} from "util";
 
 @Component({
   selector: 'app-building',
@@ -46,7 +47,7 @@ export class BuildingComponent implements OnInit {
     }
 
   };
-
+  public imgPrefix = "http://212.192.88.199";
   ngOnInit() {
     this.refreshFloors();
   }
@@ -57,12 +58,17 @@ export class BuildingComponent implements OnInit {
     this.addNew = false;
   }
   submitFloor(){
-    this.addNew=false;
-    this.model.Image = this.inputFileModel[0].icon;
-    this.dt.addFloor(this.model).then(ok=>{
-      console.log(ok[1]);
-      this.refreshFloors();
-    })
+    if(this.validate()) {
+      this.addNew = false;
+      this.model.Image = this.inputFileModel[0].icon;
+      this.dt.addFloor(this.model).then(ok => {
+        console.log(ok[1]);
+        this.refreshFloors();
+      })
+    }
+    else{
+      alert("Заполните все поля");
+    }
   }
   deleteFloor($event) {
     var target = $event.target || $event.srcElement || $event.currentTarget;
@@ -90,10 +96,17 @@ export class BuildingComponent implements OnInit {
     this.dt.getFloors(this.model.BuildingID).then(floors =>{
       floors.forEach(function(item){
         item.deleted=false;
+        item.p_url=item.p_url.substr(1);
       });
       this.data = floors.sort((obj1,obj2)=> obj1.level-obj2.level);
       this.source.load(this.data);
     });
+  }
+  validate(){
+    if(isUndefined(this.model.Name) || isUndefined(this.model.Level) || isUndefined(this.model.Length) || isUndefined(this.model.Width) || isUndefined(this.model.Height) || this.inputFileModel.length==0){
+      return false;
+    }
+    return true;
   }
 
 }

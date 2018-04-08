@@ -22,4 +22,11 @@
     </div>
   </div>
 </div>
+<div class="floor" *ngFor="let building of data">
+  <div *ngIf="!building.deleted">
+    <h4 class="floor-name"><a href="building/{{building.id}}">{{building.name}}</a>
+      <button type="button" id="d_{{building.id}}" class="btn btn-danger" (click)="removeBuilding($event)">Удалить</button>
+    </h4>
+  </div>
+</div>
 <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onBuildingSelect($event)"></ng2-smart-table>

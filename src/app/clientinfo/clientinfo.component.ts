@@ -42,6 +42,13 @@ export class ClientinfoComponent implements OnInit {
     },
     pager: {
       perPage: 20,
+    },
+    rowClassFunction: (row) => {
+      if (row.data.selected === true) {
+        return 'green';
+      } else {
+        return '';
+      }
     }
 
   };
@@ -136,6 +143,7 @@ export class ClientinfoComponent implements OnInit {
             return obj.bsnAPDot3MacAddress == client.bsnMobileStationAPMacAddr;
           }
         )[0];
+        $this.clientAp.selected=false;
         console.log(this.clientAp);
         this.source.load([this.clientAp]);
       });
@@ -176,13 +184,20 @@ export class ClientinfoComponent implements OnInit {
               return obj.bsnAPDot3MacAddress == client.bsnMobileStationAPMacAddr;
             }
           )[0];
+          this.clientAp.selected = false;
           this.source.load([this.clientAp]);
         });
 
       })
   }
   onApSelect($event) {
-    this.router.navigate(["apinfo/" + $event.data.bsnAPName]);
+    if($event.data.selected) {
+      this.router.navigate(["apinfo/" + $event.data.bsnAPName]);
+    }
+    else{
+      this.clientAp.selected= false;
+      $event.data.selected=true;
+    }
   }
   getLogs(){
     var mac = this.clientMac.replace(/ /g, ':');

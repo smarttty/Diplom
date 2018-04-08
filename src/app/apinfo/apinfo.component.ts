@@ -29,6 +29,13 @@ export class ApinfoComponent implements OnInit {
     },
     pager: {
       perPage: 20,
+    },
+    rowClassFunction: (row) => {
+      if (row.data.selected === true) {
+        return 'green';
+      } else {
+        return '';
+      }
     }
 
   };
@@ -149,6 +156,9 @@ export class ApinfoComponent implements OnInit {
       .then(ap => {
         $this.dt.getClientStat()
           .then(ClientArray => {
+            ClientArray.forEach(function(item){
+              item.selected = false;
+            });
             $this.apClients = ClientArray.filter(function (obj) {
               return obj.bsnMobileStationAPMacAddr == ap.bsnAPDot3MacAddress
             });
@@ -193,6 +203,9 @@ export class ApinfoComponent implements OnInit {
       .then(ap => {
         $this.dt.getClientStat()
           .then(ClientArray => {
+            ClientArray.forEach(function(item){
+              item.selected = false;
+            });
             $this.apClients = ClientArray.filter(function (obj) {
               return obj.bsnMobileStationAPMacAddr == ap.bsnAPDot3MacAddress
             });
@@ -201,7 +214,15 @@ export class ApinfoComponent implements OnInit {
       });
   }
   onClientSelect($event) {
-      this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ","g"),'_')]);
+    if($event.data.selected) {
+      this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ", "g"), '_')]);
+    }
+    else{
+      this.apClients.forEach(function(item){
+        item.selected= false;
+      });
+      $event.data.selected=true;
+    }
   }
   getLogs(){
     var mac = this.apMac.replace(/ /g, ':');

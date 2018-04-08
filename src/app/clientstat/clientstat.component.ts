@@ -27,6 +27,13 @@ export class ClientstatComponent implements OnInit {
     pager: {
       display: true,
       perPage: this.perPage,
+    },
+    rowClassFunction: (row) => {
+      if (row.data.selected === true) {
+        return 'green';
+      } else {
+        return '';
+      }
     }
 
   };
@@ -129,6 +136,9 @@ export class ClientstatComponent implements OnInit {
   ngOnInit() {
     var $this = this;
     this.dt.getClientStat().then(ClientArray => {
+      ClientArray.forEach(function(item){
+        item.selected = false;
+      });
       this.data = ClientArray;
       this.dt.clients = ClientArray;
       this.source.load(this.data);
@@ -144,7 +154,15 @@ export class ClientstatComponent implements OnInit {
   }
 
   onClientSelect($event) {
-      this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ","g"),'_')]);
+    if($event.data.selected) {
+      this.router.navigate(["clientinfo/" + $event.data.bsnMobileStationMacAddress.replace(new RegExp(" ", "g"), '_')]);
+    }
+    else{
+      this.data.forEach(function(item){
+        item.selected= false;
+      });
+      $event.data.selected=true;
+    }
   }
 
   refreshTableColumns() {
@@ -161,6 +179,9 @@ export class ClientstatComponent implements OnInit {
 
   public refreshTableData() {
     this.dt.getClientStat().then(ClientArray => {
+      ClientArray.forEach(function(item){
+        item.selected = false;
+      });
       this.data = ClientArray;
       this.source.load(this.data);
       this.source.refresh();
