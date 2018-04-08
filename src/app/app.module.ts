@@ -30,9 +30,9 @@ const appRoutes: Routes = [
   { path: 'clientinfo/:mac', component: ClientinfoComponent,canActivate:[AuthService] },
   {path: 'clients', component: ClientstatComponent,canActivate:[AuthService] },
   {path: 'login', component: UserLoginComponent},
-  {path: 'buildings', component: BuildingsComponent},
-  {path: 'building/:id', component: BuildingComponent},
-  {path: 'search?query=:query', component: SearchComponent}
+  {path: 'buildings', component: BuildingsComponent, canActivate:[AuthService]},
+  {path: 'building/:id', component: BuildingComponent, canActivate:[AuthService]},
+  {path: 'search?query=:query', component: SearchComponent, canActivate:[AuthService]}
 ];
 export const firebaseconfig = {
   apiKey: "AIzaSyCAcmKVrI9A9-83FbkDuXATEUnnRbszIf0",
