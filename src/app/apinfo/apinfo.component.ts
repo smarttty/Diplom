@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DataproviderService} from "../providers/dataprovider.service";
 import {Router, ActivatedRoute} from "@angular/router";
 import {LocalDataSource} from "ng2-smart-table";
+import {NgProgress} from "@ngx-progressbar/core";
 
 @Component({
   selector: 'app-apinfo',
@@ -123,7 +124,7 @@ export class ApinfoComponent implements OnInit {
   public source = new LocalDataSource();
   private selectedClient : string = null;
   public logs : string='';
-  constructor(private router: Router, private route: ActivatedRoute, public dt: DataproviderService) {
+  constructor(private router: Router, private route: ActivatedRoute, public dt: DataproviderService, public progress: NgProgress) {
     if (localStorage.getItem('apinfo_client_table_settings') !== null) {
       this.visible_properties = JSON.parse(localStorage.getItem('apinfo_client_table_settings'));
     }
@@ -225,6 +226,7 @@ export class ApinfoComponent implements OnInit {
     }
   }
   getLogs(){
+    this.progress.start();
     var mac = this.apMac.replace(/ /g, ':');
     mac = mac.replace(/[A-Z]/g,"$&").toLowerCase();
     mac=mac.substr(0,mac.length-1);
@@ -233,7 +235,8 @@ export class ApinfoComponent implements OnInit {
     this.dt.getLogs(mac, 0).then(res=> {
         res.forEach(function(item){
           $this.logs+=item[0]+": "+item[1]+"\n";
-        })
+        });
+      $this.progress.complete();
       }
     );
     console.log(this.logs);

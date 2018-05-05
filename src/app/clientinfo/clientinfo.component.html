@@ -23,6 +23,7 @@
 <ng2-smart-table id="Ap" [settings]="settings" [source]="source" (userRowSelect)="onApSelect($event)"></ng2-smart-table>
 <br>
 <br>
+<ng-progress #progressBar></ng-progress>
 <div class="form-group">
   <label for="logs"><h5>Логи клиента</h5></label>
   <textarea class="form-control" id="logs" rows="10">{{logs}}</textarea>

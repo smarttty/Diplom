@@ -21,6 +21,7 @@
   <option *ngFor="let pager of perPageArray" [ngValue]="pager.value">{{pager.name}}</option>
 </select>
 <ng2-smart-table [settings]="settings" [source]="apClients" (userRowSelect)="onClientSelect($event)"></ng2-smart-table>
+<ng-progress #progressBar></ng-progress>
 <div class="form-group">
   <label for="logs"><h5>Логи точки доступа</h5></label>
   <textarea class="form-control" id="logs" rows="10">{{logs}}</textarea>

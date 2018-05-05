@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
 import {DataproviderService} from "../providers/dataprovider.service";
 import {LocalDataSource} from "ng2-smart-table";
+import {NgProgress} from "@ngx-progressbar/core";
 
 @Component({
   selector: 'app-clientinfo',
@@ -10,7 +11,7 @@ import {LocalDataSource} from "ng2-smart-table";
 })
 export class ClientinfoComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, private dt: DataproviderService) {
+  constructor(private router: Router, private route: ActivatedRoute, private dt: DataproviderService, public progress: NgProgress) {
     if (localStorage.getItem('clientinfo_ap_table_settings') !== null) {
       this.visible_properties = JSON.parse(localStorage.getItem('clientinfo_ap_table_settings'));
     }
@@ -148,8 +149,9 @@ export class ClientinfoComponent implements OnInit {
         this.source.load([this.clientAp]);
       });
 
+    }).then(()=>{
+      this.getLogs();
     });
-    this.getLogs();
   }
   refreshTableColumns() {
     var newSettings = this.settings;
@@ -200,6 +202,7 @@ export class ClientinfoComponent implements OnInit {
     }
   }
   getLogs(){
+    this.progress.start();
     var mac = this.clientMac.replace(/ /g, ':');
     mac = mac.replace(/[A-Z]/g,"$&").toLowerCase();
     mac=mac.substr(0,mac.length-1);
@@ -208,7 +211,8 @@ export class ClientinfoComponent implements OnInit {
     this.dt.getLogs(mac, 0).then(res=> {
         res.forEach(function(item){
           $this.logs+=item[0]+": "+item[1]+"\n";
-        })
+        });
+      $this.progress.complete();
       }
     )
   }

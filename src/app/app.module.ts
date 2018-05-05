@@ -22,6 +22,8 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import { BuildingsComponent } from './buildings/buildings.component';
 import { BuildingComponent } from './building/building.component';
 import { InputFileModule } from 'ngx-input-file';
+import {NgProgressModule} from "@ngx-progressbar/core";
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 
 const appRoutes: Routes = [
   { path: 'apstat', component: ApstatComponent, canActivate:[AuthService] },
@@ -67,7 +69,9 @@ export const firebaseconfig = {
     FormsModule,
     AngularFireModule.initializeApp(firebaseconfig),
     AngularFireAuthModule,
-    InputFileModule
+    InputFileModule,
+    NgProgressModule.forRoot(),
+    LeafletModule.forRoot()
   ],
   providers: [DataproviderService,AuthService,MessagingService,AngularFireDatabase],
   bootstrap: [AppComponent]

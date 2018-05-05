@@ -250,6 +250,11 @@ export class DataproviderService {
       return res;
     })
   }
+  public getImgSize(url) : Promise<any>{
+    return this.http.get('http://212.192.88.199/img_size.php?url='+url).toPromise().then(res=>{
+      return JSON.parse(res.text());
+    })
+  }
 
 
 }

@@ -53,13 +53,14 @@
     <button type="submit" class="btn btn-primary">Создать</button>
   </form>
 </div>
-<div class="floor" *ngFor="let floor of data">
+<div class="floor" *ngFor="let floor of data; let i = index">
   <div *ngIf="!floor.deleted">
     <h4>{{floor.name}}
       <button type="button" id="d_{{floor.id}}" class="btn btn-danger" (click)="deleteFloor($event)">Удалить</button>
     </h4>
     <h6>Уровень: {{floor.level}}</h6>
-    <img src="{{imgPrefix}}{{floor.p_url}}" width="600px" height="400px">
+    <!--<img src="{{imgPrefix}}{{floor.p_url}}" width="600px" height="400px">-->
+    <div style = "height: 500px; width:700px" leaflet [leafletOptions]="bounds_options[i][0]" [leafletFitBounds]="bounds_options[i][1]"></div>
   </div>
 </div>
 
