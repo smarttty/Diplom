@@ -57,6 +57,7 @@
   <div *ngIf="!floor.deleted">
     <h4>{{floor.name}}
       <button type="button" id="d_{{floor.id}}" class="btn btn-danger" (click)="deleteFloor($event)">Удалить</button>
+      <button type="button" id="u_{{floor.id}}" class="btn btn-warning" (click)="updateFloor($event)">Изменить</button>
     </h4>
     <h6>Уровень: {{floor.level}}</h6>
     <!--<img src="{{imgPrefix}}{{floor.p_url}}" width="600px" height="400px">-->

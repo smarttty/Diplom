@@ -234,6 +234,16 @@ export class DataproviderService {
       }
     )
   }
+  public getFloor(floorId) : Promise<any>{
+    return this.http.get('http://212.192.88.199/floors.php').toPromise().then(res=> {
+        var floorsArr = JSON.parse(res.text());
+        floorsArr = floorsArr.filter(item => {
+          return item.id == floorId.toString();
+        });
+        return floorsArr[0];
+      }
+    )
+  }
   public delFloor(floorId, plan_url) : Promise<any>{
     return this.http.delete('http://212.192.88.199/floors.php?id='+floorId+'&link='+plan_url).toPromise().then(res=>{
       return res;

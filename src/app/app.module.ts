@@ -24,6 +24,8 @@ import { BuildingComponent } from './building/building.component';
 import { InputFileModule } from 'ngx-input-file';
 import {NgProgressModule} from "@ngx-progressbar/core";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {LeafletDrawModule} from "@asymmetrik/ngx-leaflet-draw";
+import { FloorComponent } from './floor/floor.component';
 
 const appRoutes: Routes = [
   { path: 'apstat', component: ApstatComponent, canActivate:[AuthService] },
@@ -34,7 +36,8 @@ const appRoutes: Routes = [
   {path: 'login', component: UserLoginComponent},
   {path: 'buildings', component: BuildingsComponent, canActivate:[AuthService]},
   {path: 'building/:id', component: BuildingComponent, canActivate:[AuthService]},
-  {path: 'search?query=:query', component: SearchComponent, canActivate:[AuthService]}
+  {path: 'search?query=:query', component: SearchComponent, canActivate:[AuthService]},
+  {path: 'floor/:id', component: FloorComponent, canActivate:[AuthService]}
 ];
 export const firebaseconfig = {
   apiKey: "AIzaSyCAcmKVrI9A9-83FbkDuXATEUnnRbszIf0",
@@ -56,7 +59,8 @@ export const firebaseconfig = {
     SearchComponent,
     UserLoginComponent,
     BuildingsComponent,
-    BuildingComponent
+    BuildingComponent,
+    FloorComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,8 @@ export const firebaseconfig = {
     AngularFireAuthModule,
     InputFileModule,
     NgProgressModule.forRoot(),
-    LeafletModule.forRoot()
+    LeafletModule.forRoot(),
+    LeafletDrawModule.forRoot()
   ],
   providers: [DataproviderService,AuthService,MessagingService,AngularFireDatabase],
   bootstrap: [AppComponent]

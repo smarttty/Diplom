@@ -99,6 +99,12 @@ export class BuildingComponent implements OnInit {
     })
 
   }
+  updateFloor($event){
+    var target = $event.target || $event.srcElement || $event.currentTarget;
+    var idAttr = target.attributes.id;
+    var id = parseInt(idAttr.nodeValue.substr(2));
+    this.router.navigate(['floor/' + id]);
+  }
 
   refreshFloors() {
     this.dt.getFloors(this.model.BuildingID).then(floors => {
