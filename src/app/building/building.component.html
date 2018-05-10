@@ -61,7 +61,7 @@
     </h4>
     <h6>Уровень: {{floor.level}}</h6>
     <!--<img src="{{imgPrefix}}{{floor.p_url}}" width="600px" height="400px">-->
-    <div style = "height: 500px; width:700px" leaflet [leafletOptions]="bounds_options[i][0]" [leafletFitBounds]="bounds_options[i][1]"></div>
+    <div *ngIf="bounds_options[i]" style = "height: 500px; width:700px" leaflet [leafletOptions]="bounds_options[i][0]" [leafletFitBounds]="bounds_options[i][1]"></div>
   </div>
 </div>
 

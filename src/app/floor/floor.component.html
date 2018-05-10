@@ -1,8 +1,16 @@
-<div leaflet  style = "height: 500px; width:700px"
+<div>
+  <div *ngFor="let ch_ap of chosen_aps" style="width: 40%;position:fixed; margin-left: 738px">
+    <div>
+      <ng-select [items]="data"
+                 [(ngModel)]="chosen_ap" (focus)="onFocus(ch_ap.point_id,ch_ap.x,ch_ap.y )">
+      </ng-select>
+    </div>
+  </div>
+</div>
+<div *ngIf="map_options" leaflet style="height: 500px; width:700px"
      [leafletOptions]="map_options[0]"
      [leafletFitBounds]="map_options[1]"
      leafletDraw
      [leafletDrawOptions]="drawOptions">
-
 </div>
-<button (click)="button()"></button>
+<button class="btn btn-success">Сохранить</button>

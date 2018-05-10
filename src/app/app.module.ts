@@ -26,6 +26,7 @@ import {NgProgressModule} from "@ngx-progressbar/core";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {LeafletDrawModule} from "@asymmetrik/ngx-leaflet-draw";
 import { FloorComponent } from './floor/floor.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const appRoutes: Routes = [
   { path: 'apstat', component: ApstatComponent, canActivate:[AuthService] },
@@ -76,7 +77,8 @@ export const firebaseconfig = {
     InputFileModule,
     NgProgressModule.forRoot(),
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot()
+    LeafletDrawModule.forRoot(),
+    NgSelectModule
   ],
   providers: [DataproviderService,AuthService,MessagingService,AngularFireDatabase],
   bootstrap: [AppComponent]

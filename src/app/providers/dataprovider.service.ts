@@ -265,6 +265,11 @@ export class DataproviderService {
       return JSON.parse(res.text());
     })
   }
+  public getAllAps(){
+    return this.http.get('http://212.192.88.199/ap.php').toPromise().then(res=>{
+      return JSON.parse(res.text());
+    })
+  }
 
 
 }
