@@ -1,16 +1,21 @@
 <div>
-  <div *ngFor="let ch_ap of chosen_aps" style="width: 40%;position:fixed; margin-left: 738px">
-    <div>
-      <ng-select [items]="data"
-                 [(ngModel)]="chosen_ap" (focus)="onFocus(ch_ap.point_id,ch_ap.x,ch_ap.y )">
-      </ng-select>
-    </div>
-  </div>
+  <table style="width: 45%; right:0;position: absolute;margin-right: 15px">
+
+    <tr *ngFor="let ch_ap of chosen_aps; let i = index">
+      <td>
+        <div *ngIf="chosen_aps">
+          <ng-select [items]="data"
+                     [(ngModel)]="chosen_aps[i].id" (focus)="onFocus(ch_ap.x,ch_ap.y )" [searchable]="true" bindValue="id" bindLabel="name" [hideSelected]="true">
+          </ng-select>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>
-<div *ngIf="map_options" leaflet style="height: 500px; width:700px"
+<div *ngIf="map_options" leaflet style="height: 500px; width:50%"
      [leafletOptions]="map_options[0]"
      [leafletFitBounds]="map_options[1]"
      leafletDraw
      [leafletDrawOptions]="drawOptions">
 </div>
-<button class="btn btn-success">Сохранить</button>
+<button *ngIf="map_options" class="btn btn-success" style="margin-top: 10px;width: 50%;" (click)="buttonClick()">Сохранить</button>

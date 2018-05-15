@@ -19,7 +19,6 @@ export class FloorComponent implements OnInit {
   public imgPrefix = "http://212.192.88.199";
   public data;
   public chosen_aps=[];
-  public chosen_ap;
   public drawOptions = {
     position: 'topright',
     draw: {
@@ -27,7 +26,7 @@ export class FloorComponent implements OnInit {
         icon: icon({
           iconSize: [24, 24],
           iconUrl: '../../assets/images/router_marker.png',
-        })
+        }),
       },
       polyline: false,
       circle: false,
@@ -36,6 +35,7 @@ export class FloorComponent implements OnInit {
       circlemarker: false,
     }
   };
+  private curr_aps=[];
   constructor(private dt: DataproviderService, private router: Router, private route: ActivatedRoute) {
     this.floorId = this.route.snapshot.params["id"];
 
@@ -82,24 +82,51 @@ export class FloorComponent implements OnInit {
       $this.dt.getAllAps().then(aps=>{
         $this.data=[];
         aps.forEach(function(ap){
-          $this.data.push(ap.name);
+          $this.data.push({id:ap.id, name:ap.name});
+        });
+        $this.curr_aps = aps.filter(function(ap){
+          if(ap.floorID==$this.floorId){
+            return true;
+          }
+          else {
+            return false;
+          }
+        });
+        $this.data.sort(function(a, b){
+          if (a.name > b.name) {
+            return 1;
+          }
+          if (a.name < b.name) {
+            return -1;
+          }
+          // a должно быть равным b
+          return 0;
         })
       });
     }).then(()=>{
       setTimeout(function(){
-        var myIcon = L.icon({
+        var onIcon = L.icon({
           iconUrl: '../../assets/images/router_on.png',
           iconSize: [24, 24],
         });
-        var marker = L.marker(L.latLng(100,100),{
-          icon : myIcon
+        var offIcon = L.icon({
+          iconUrl: '../../assets/images/router_on.png',
+          iconSize: [24, 24],
         });
-        marker.addTo($this.leafletDirective.getMap());
+        $this.curr_aps.forEach(function(ap){
+          var marker = L.marker(L.latLng(ap.y,ap.x),{
+            icon : (ap.status=='ON') ? onIcon : offIcon,
+            draggable: true,
+          })
+            .bindPopup('<a href="apinfo/'+ap.name+'">'+ap.name+'</a>')
+            .addTo($this.leafletDirective.getMap());
+        });
         $this.leafletDirective.getMap().on(L.Draw.Event.CREATED, function (event) {
           console.log("CREATED");
           console.log(event.layer);
 
-          $this.chosen_aps.push({point_id:$this.chosen_aps.length+1,id:"",x:event.layer._latlng.lng,y:event.layer._latlng.lat})
+          $this.chosen_aps[$this.chosen_aps.length]={id:"",x:event.layer._latlng.lng,y:event.layer._latlng.lat,floorID:$this.floorId};
+
         });
       },1000);
 
@@ -108,9 +135,17 @@ export class FloorComponent implements OnInit {
 
 
   }
-  onFocus(id,x,y){
-    console.log(id,x,y);
-    this.leafletDirective.getMap().setView(L.latLng(y,x),-1);
+  onFocus(x,y){
+    console.log(x,y);
+    var map = this.leafletDirective.getMap();
+    map.setView(L.latLng(y,x),-1);
+    map.openPopup('This is me!', L.latLng(y,x));
+  }
+  buttonClick(){
+    console.log(this.chosen_aps);
+    this.dt.updateAps(this.chosen_aps).then(res=>{
+      console.log(res);
+    })
   }
 
 }

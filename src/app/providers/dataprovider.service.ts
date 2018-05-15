@@ -189,27 +189,30 @@ export class DataproviderService {
       return ClientArray
     })
   }
-  public addBuilding(building : Building) : Promise<any>{
 
-    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
-    let options = new RequestOptions( {method: RequestMethod.Post, headers: headers });
+  public addBuilding(building: Building): Promise<any> {
+
+    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'});
+    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
 
     let body = this.serializeObj(building);
-    return this.http.post('http://212.192.88.199/buildings.php', body, options).toPromise().then(res=> {
-      return [res.ok,res.text()];
-      }
-    )
-  }
-  public addFloor(floor : any) : Promise<any>{
-
-    let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded;'});
-    let options = new RequestOptions( {method: RequestMethod.Post, headers: headers });
-    var body = this.serializeObj(floor);
-    return this.http.post('http://212.192.88.199/floors.php', body, options).toPromise().then(res=> {
+    return this.http.post('http://212.192.88.199/buildings.php', body, options).toPromise().then(res => {
         return [res.ok, res.text()];
       }
     )
   }
+
+  public addFloor(floor: any): Promise<any> {
+
+    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded;'});
+    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
+    var body = this.serializeObj(floor);
+    return this.http.post('http://212.192.88.199/floors.php', body, options).toPromise().then(res => {
+        return [res.ok, res.text()];
+      }
+    )
+  }
+
   private serializeObj(obj) {
     var result = [];
     for (var property in obj)
@@ -218,24 +221,26 @@ export class DataproviderService {
     return result.join("&");
   }
 
-  public getAllBuildings() : Promise<any>{
-    return this.http.get('http://212.192.88.199/buildings.php').toPromise().then(res=> {
+  public getAllBuildings(): Promise<any> {
+    return this.http.get('http://212.192.88.199/buildings.php').toPromise().then(res => {
         return JSON.parse(res.text());
       }
     )
   }
-  public getFloors(buildingId) : Promise<any>{
-    return this.http.get('http://212.192.88.199/floors.php').toPromise().then(res=> {
+
+  public getFloors(buildingId): Promise<any> {
+    return this.http.get('http://212.192.88.199/floors.php').toPromise().then(res => {
         var floorsArr = JSON.parse(res.text());
         floorsArr = floorsArr.filter(item => {
-            return item.buildingId == buildingId.toString();
+          return item.buildingId == buildingId.toString();
         });
-      return floorsArr;
+        return floorsArr;
       }
     )
   }
-  public getFloor(floorId) : Promise<any>{
-    return this.http.get('http://212.192.88.199/floors.php').toPromise().then(res=> {
+
+  public getFloor(floorId): Promise<any> {
+    return this.http.get('http://212.192.88.199/floors.php').toPromise().then(res => {
         var floorsArr = JSON.parse(res.text());
         floorsArr = floorsArr.filter(item => {
           return item.id == floorId.toString();
@@ -244,31 +249,46 @@ export class DataproviderService {
       }
     )
   }
-  public delFloor(floorId, plan_url) : Promise<any>{
-    return this.http.delete('http://212.192.88.199/floors.php?id='+floorId+'&link='+plan_url).toPromise().then(res=>{
+
+  public delFloor(floorId, plan_url): Promise<any> {
+    return this.http.delete('http://212.192.88.199/floors.php?id=' + floorId + '&link=' + plan_url).toPromise().then(res => {
       return res;
     })
   }
-  public getLogs(mac, offset){
-    return this.http.get('http://212.192.88.199/logs.php?mac='+mac+'&offset='+offset).toPromise().then(res=>{
+
+  public getLogs(mac, offset) {
+    return this.http.get('http://212.192.88.199/logs.php?mac=' + mac + '&offset=' + offset).toPromise().then(res => {
       return JSON.parse(res.text());
 
     })
   }
-  public delBuilding(buildId) : Promise<any>{
-    return this.http.delete('http://212.192.88.199/buildings.php?id='+buildId).toPromise().then(res=>{
+
+  public delBuilding(buildId): Promise<any> {
+    return this.http.delete('http://212.192.88.199/buildings.php?id=' + buildId).toPromise().then(res => {
       return res;
     })
   }
-  public getImgSize(url) : Promise<any>{
-    return this.http.get('http://212.192.88.199/img_size.php?url='+url).toPromise().then(res=>{
+
+  public getImgSize(url): Promise<any> {
+    return this.http.get('http://212.192.88.199/img_size.php?url=' + url).toPromise().then(res => {
       return JSON.parse(res.text());
     })
   }
-  public getAllAps(){
-    return this.http.get('http://212.192.88.199/ap.php').toPromise().then(res=>{
+
+  public getAllAps() {
+    return this.http.get('http://212.192.88.199/ap.php').toPromise().then(res => {
       return JSON.parse(res.text());
     })
+  }
+
+  public updateAps(aps: any): Promise<any> {
+    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded;'});
+    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
+    var body = JSON.stringify(aps);
+    return this.http.post('http://212.192.88.199/ap.php', body, options).toPromise().then(res => {
+        return [res.ok, res.text()];
+      }
+    )
   }
 
 
