@@ -280,6 +280,11 @@ export class DataproviderService {
       return JSON.parse(res.text());
     })
   }
+  public getHm(floorid) {
+    return this.http.get('http://212.192.88.199/heatmap1.php?floorID='+floorid.toString()).toPromise().then(res=>{
+      return JSON.parse(res.text());
+    })
+  }
 
   public updateAps(aps: any): Promise<any> {
     let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded;'});
@@ -290,6 +295,7 @@ export class DataproviderService {
       }
     )
   }
+
 
 
 }

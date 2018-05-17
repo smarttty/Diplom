@@ -3,7 +3,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DataproviderService} from "../providers/dataprovider.service";
 import {CRS, icon, imageOverlay, latLngBounds} from "leaflet";
 import {LeafletDirective} from "@asymmetrik/ngx-leaflet";
-import * as L from 'leaflet';
+
+
+
+declare var L;
+declare var HeatmapOverlay;
 
 @Component({
   selector: 'app-floor',
@@ -42,6 +46,7 @@ export class FloorComponent implements OnInit {
 
   }
 
+
   ngOnInit() {
     this.refreshFloor();
 
@@ -68,7 +73,9 @@ export class FloorComponent implements OnInit {
         [
           {
             layers: [
-              imageOverlay(img_url, bounds)
+              imageOverlay(img_url, bounds,{
+                "opacity":0.5,
+              }).bringToBack()
             ],
             minZoom: -3,
             maxZoom: 1,
@@ -145,6 +152,26 @@ export class FloorComponent implements OnInit {
     console.log(this.chosen_aps);
     this.dt.updateAps(this.chosen_aps).then(res=>{
       console.log(res);
+    })
+  }
+  getMap(){
+    var $this=this;
+    this.dt.getHm(this.floorId).then(points=>{
+
+
+    let data={max:24,min:0,data:points};
+    var cfg={
+      radius:1,
+      scaleRadius:false,
+      latField:"y",
+      lngField:"x",
+      valueField:"power",
+
+    };
+    let hm = new HeatmapOverlay(cfg);
+    console.log(hm);
+    hm.setData(data);
+    hm.addTo($this.leafletDirective.getMap());
     })
   }
 

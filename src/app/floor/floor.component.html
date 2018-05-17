@@ -12,10 +12,11 @@
     </tr>
   </table>
 </div>
-<div *ngIf="map_options" leaflet style="height: 500px; width:50%"
+<div *ngIf="map_options" leaflet style="height: 500px; width:500px"
      [leafletOptions]="map_options[0]"
      [leafletFitBounds]="map_options[1]"
      leafletDraw
      [leafletDrawOptions]="drawOptions">
 </div>
 <button *ngIf="map_options" class="btn btn-success" style="margin-top: 10px;width: 50%;" (click)="buttonClick()">Сохранить</button>
+<button *ngIf="map_options" class="btn btn-danger" style="margin-top: 10px;width: 50%;"(click)="getMap()">Карта</button>
