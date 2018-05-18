@@ -12,7 +12,13 @@
     </tr>
   </table>
 </div>
-<div *ngIf="map_options" leaflet style="height: 500px; width:500px"
+<select [(ngModel)]="scale" class="form-control">
+  <option>20</option>
+  <option>30</option>
+  <option>40</option>
+  <option>50</option>
+</select>
+<div *ngIf="map_options" leaflet style="height: 500px; width:50%"
      [leafletOptions]="map_options[0]"
      [leafletFitBounds]="map_options[1]"
      leafletDraw

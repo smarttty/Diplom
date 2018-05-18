@@ -280,8 +280,8 @@ export class DataproviderService {
       return JSON.parse(res.text());
     })
   }
-  public getHm(floorid) {
-    return this.http.get('http://212.192.88.199/heatmap1.php?floorID='+floorid.toString()).toPromise().then(res=>{
+  public getHm(floorid, scale) {
+    return this.http.get('http://212.192.88.199/heatmap1.php?floorID='+floorid.toString()+'&scale='+scale.toString()).toPromise().then(res=>{
       return JSON.parse(res.text());
     })
   }

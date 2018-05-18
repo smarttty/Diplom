@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataproviderService} from "../providers/dataprovider.service";
-import {CRS, icon, imageOverlay, latLngBounds} from "leaflet";
+import {control, CRS, icon, imageOverlay, latLngBounds} from "leaflet";
 import {LeafletDirective} from "@asymmetrik/ngx-leaflet";
+import scale = control.scale;
 
 
 
@@ -39,11 +40,10 @@ export class FloorComponent implements OnInit {
       circlemarker: false,
     }
   };
+  public scale=30;
   private curr_aps=[];
   constructor(private dt: DataproviderService, private router: Router, private route: ActivatedRoute) {
     this.floorId = this.route.snapshot.params["id"];
-
-
   }
 
 
@@ -156,13 +156,13 @@ export class FloorComponent implements OnInit {
   }
   getMap(){
     var $this=this;
-    this.dt.getHm(this.floorId).then(points=>{
+    this.dt.getHm(this.floorId, this.scale).then(points=>{
 
 
     let data={max:24,min:0,data:points};
     var cfg={
-      radius:1,
-      scaleRadius:false,
+      radius:this.scale+10,
+      scaleRadius:true,
       latField:"y",
       lngField:"x",
       valueField:"power",
