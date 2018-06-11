@@ -296,6 +296,25 @@ export class DataproviderService {
     )
   }
 
+  public updateDeviceToken(usToken: any): Promise<any> {
+
+    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded;'});
+    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
+    var body = this.serializeObj(usToken);
+    return this.http.post('http://212.192.88.199/UpdateToken.php', body, options).toPromise().then(res => {
+        return [res.ok, res.text()];
+      }
+    )
+  }
+
+  public getNoifications():Promise<any>{
+    return this.http.get('http://212.192.88.199/sendNotifications.php').toPromise().then(res=>
+    {
+      return JSON.parse(res.text());
+    }
+    )
+  }
+
 
 
 }

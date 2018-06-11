@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^5.2.0",
+    "@angular/animations": "^5.2.11",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
     "@angular/core": "^5.2.0",
@@ -26,6 +26,7 @@
     "@ng-select/ng-select": "^1.4.1",
     "@ngx-progressbar/core": "^4.3.0",
     "angular2-multiselect-dropdown": "^2.5.0",
+    "angular2-notifications": "^1.0.2",
     "angularfire2": "^5.0.0-rc.6",
     "core-js": "^2.4.1",
     "dgram": "^1.0.1",
