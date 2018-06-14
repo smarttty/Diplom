@@ -216,4 +216,18 @@ export class ClientinfoComponent implements OnInit {
       }
     )
   }
+
+  offClient(){
+    var mac = this.clientMac.replace(/ /g, ':');
+    mac = mac.replace(/[A-Z]/g,"$&").toLowerCase();
+    mac = mac.substr(0,mac.length-1);
+    console.log(mac);
+    this.dt.removeClient(mac).then(res=>{
+      if(res){
+        console.log("Client removed");
+        this.router.navigate(["clients"]);
+      }
+    })
+
+  }
 }

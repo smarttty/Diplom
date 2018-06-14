@@ -12,7 +12,7 @@ export class AppComponent implements OnInit{
   message;
   public options = {
     position: ["bottom", "right"],
-    timeOut: 30000,
+    timeOut: 0,
     lastOnBottom: true,
     maxStack: 10,
     clickToClose: true,
@@ -26,6 +26,12 @@ export class AppComponent implements OnInit{
     this.msgService.receiveMessage();
     this.message = this.msgService.currentMessage;
     var $this = this;
+    $this.dt.getNoifications().then(data=>{
+      console.log(data);
+      data.forEach(function(item){
+        $this.open(item);
+      })
+    });
     setInterval(function(){
       $this.dt.getNoifications().then(data=>{
         console.log(data);

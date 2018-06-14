@@ -151,6 +151,7 @@ export class ApstatComponent implements OnInit {
       pullRight: true,
     }
 
+
   }
 
   onApSelect($event) {

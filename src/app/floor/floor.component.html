@@ -1,28 +1,41 @@
+<ng-progress #progressBar></ng-progress>
 <div>
+  <div class="form-group" style="white-space:nowrap!important; display: flex;margin-top: 10px;width: 50%">
+    <label for="rad" style="white-space: nowrap;margin-left: 10px">Радиус точки на карте: </label>
+    <input class="form-control" id="rad" type="number" [(ngModel)]="radius" (change)="changeRadius()" style="width: 10%!important;margin-left: 15px;height: 30px">
+    <label for="scale" style="white-space: nowrap;margin-left: 220px">Размер блока: </label>
+    <select id="scale" [(ngModel)]="scale" class="form-control" style="margin-top: 0px!important;height: 30px!important; margin-left: 15px;float: right">
+      <option>20</option>
+      <option>30</option>
+      <option>40</option>
+      <option>50</option>
+    </select>
+  </div>
   <table style="width: 45%; right:0;position: absolute;margin-right: 15px">
 
     <tr *ngFor="let ch_ap of chosen_aps; let i = index">
       <td>
         <div *ngIf="chosen_aps">
           <ng-select [items]="data"
-                     [(ngModel)]="chosen_aps[i].id" (focus)="onFocus(ch_ap.x,ch_ap.y )" [searchable]="true" bindValue="id" bindLabel="name" [hideSelected]="true">
+                     [(ngModel)]="chosen_aps[i].id" (focus)="onFocus(ch_ap.x,ch_ap.y )" [searchable]="true"
+                     bindValue="id" bindLabel="name" [hideSelected]="true">
           </ng-select>
         </div>
       </td>
     </tr>
   </table>
 </div>
-<select [(ngModel)]="scale" class="form-control">
-  <option>20</option>
-  <option>30</option>
-  <option>40</option>
-  <option>50</option>
-</select>
+
 <div *ngIf="map_options" leaflet style="height: 500px; width:50%"
      [leafletOptions]="map_options[0]"
      [leafletFitBounds]="map_options[1]"
      leafletDraw
-     [leafletDrawOptions]="drawOptions">
+     [leafletDrawOptions]="drawOptions"
+     (leafletMapReady)="onMapReady($event)">
 </div>
-<button *ngIf="map_options" class="btn btn-success" style="margin-top: 10px;width: 50%;" (click)="buttonClick()">Сохранить</button>
-<button *ngIf="map_options" class="btn btn-danger" style="margin-top: 10px;width: 50%;"(click)="getMap()">Карта</button>
+<button *ngIf="map_options" class="btn btn-success" style="margin-top: 10px;width: 50%;" (click)="buttonClick()">
+  Сохранить
+</button>
+<button *ngIf="map_options" class="btn btn-danger" style="margin-top: 10px;width: 50%;" (click)="getMap()">Карта
+</button>
+

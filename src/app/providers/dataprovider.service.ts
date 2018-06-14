@@ -315,6 +315,35 @@ export class DataproviderService {
     )
   }
 
+  public removeClient(mac):Promise<any>{
+    return this.http.get('http://212.192.88.199/client_remove.php?mac='+mac).toPromise().then(res=>{
+      return JSON.parse(res.text());
+    })
+  }
+
+  public removeAps(aps): Promise<any> {
+    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded;'});
+    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
+    var body = this.serializeObj({aps:aps});
+    return this.http.post('http://212.192.88.199/remove_aps.php', body, options).toPromise().then(res => {
+        return [res.ok, res.text()];
+      }
+    )
+  }
+
+  public moveAps(aps): Promise<any> {
+    console.log(aps);
+    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded;'});
+    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
+    var body = this.serializeObj({aps:aps});
+    console.log(body);
+    return this.http.post('http://212.192.88.199/move_aps.php', body, options).toPromise().then(res => {
+        return [res.ok, res.text()];
+      }
+    )
+  }
+
+
 
 
 }
