@@ -156,7 +156,6 @@ export class FloorComponent implements OnInit {
         latField: "y",
         lngField: "x",
         valueField: "power",
-
       };
       $this.hmLayer = new HeatmapOverlay(cfg);
       console.log($this.hmLayer);
@@ -219,6 +218,7 @@ export class FloorComponent implements OnInit {
           return false;
         }
       });
+      console.log($this.curr_aps);
       $this.data.sort(function (a, b) {
         if (a.name > b.name) {
           return 1;
