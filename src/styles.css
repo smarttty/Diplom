@@ -33,3 +33,16 @@ select.form-control {
   background-color : #C0D890;
 }
 
+.threeColul{
+  width:100%;
+  margin-bottom:20px;
+  overflow:hidden;
+}
+.threeColul li{
+  line-height:1.5em;
+  float:left;
+  display:inline;
+  width:33.333%;
+  text-decoration: none;
+}
+

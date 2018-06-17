@@ -6,7 +6,7 @@
     <span class="fa fa-refresh"></span> Обновить
   </button>
 </h2>
-<ul *ngIf="client !== undefined">
+<ul *ngIf="client !== undefined" class="threeColul" style="margin-top: 25px">
   <li *ngFor="let prop of clientProperties">
     {{prop}}:{{client[prop]}}
   </li>

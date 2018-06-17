@@ -3,11 +3,25 @@
     <span class="fa fa-refresh"></span> Обновить
   </button>
 </h2>
-<ul *ngIf="apClients !== undefined">
+<ul *ngIf="apClients !== undefined" class="threeColul">
   <li *ngFor="let prop of apProperties">
     {{prop}}:{{ap[prop]}}
   </li>
 </ul>
+<h4>Radio</h4>
+<h5>2.4 Ггц</h5>
+<ul *ngIf="radio !== undefined" class="threeColul">
+  <li *ngFor="let prop of radio_keys">
+    {{prop}}:{{radio[prop][0]}}
+  </li>
+</ul>
+<h5>5 Ггц</h5>
+<ul *ngIf="radio !== undefined" class="threeColul">
+  <li *ngFor="let prop of radio_keys">
+    {{prop}}:{{radio[prop][1]}}
+  </li>
+</ul>
+<h4>Клиенты</h4>
 <angular2-multiselect
   [data]="client_properties"
   [(ngModel)]="visible_properties"

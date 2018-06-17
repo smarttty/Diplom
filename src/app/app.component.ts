@@ -44,7 +44,40 @@ export class AppComponent implements OnInit{
   }
 
   open(item){
+    var $this = this;
+    this.dt.getApStat().then(aps=>{
+      console.log(aps);
+      var re = /([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})/ig;
+      var macs = item.Message.match(re);//(re,'<a>$&</a>');
+      macs.forEach(function(mac){
+        var find_aps = aps.find(function(ap){
+          if(ap.bsnAPDot3MacAddress==(mac.replace(new RegExp(':', 'g'),' ')+' ').toUpperCase()){
+            item.Message = item.Message.replace(mac,'<a href="/apinfo/'+ap.bsnAPName+'">$&</a>')
+            return true;
+          }
+          else{
+            return false;
+          }
+        });
+      });
+      $this.dt.getClientStat().then(clients=>{
+        macs.forEach(function(mac){
+          var find_clients = clients.find(function(client) {
+            if (client.bsnMobileStationMacAddress == (mac.replace(new RegExp(':', 'g'), ' ') + ' ').toUpperCase()) {
+              item.Message = item.Message.replace(mac,'<a href="/clientinfo/'+client.bsnMobileStationMacAddress.replace(new RegExp(' ','g'),'_')+'">$&</a>')
+              return true;
+            }
+            else {
+              return false;
+            }
+          });
+          });
 
-    this._service.error("Report time: "+item.DeviceReportedTime,item.Message);
+        this._service.error("Report time: "+item.DeviceReportedTime,item.Message);
+      })
+
+
+    })
+
   }
 }

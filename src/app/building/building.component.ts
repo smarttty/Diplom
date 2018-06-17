@@ -187,7 +187,7 @@ export class BuildingComponent implements OnInit {
                 .addTo($this.problem_layers[floor.level-1]);
             }
           });
-          var hm_data = {max: 150, min: 0, data: points};
+          var hm_data = {max: 200, min: 0, data: points};
           $this.heatmap_layers[floor.level-1].setData(hm_data);
           $this.finished_ajax+=1;
           if($this.finished_ajax==$this.heatmap_layers.length) {

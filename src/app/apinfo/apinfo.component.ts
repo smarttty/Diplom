@@ -124,6 +124,8 @@ export class ApinfoComponent implements OnInit {
   public source = new LocalDataSource();
   private selectedClient : string = null;
   public logs : string='';
+  public radio;
+  public radio_keys;
   constructor(private router: Router, private route: ActivatedRoute, public dt: DataproviderService, public progress: NgProgress) {
     if (localStorage.getItem('apinfo_client_table_settings') !== null) {
       this.visible_properties = JSON.parse(localStorage.getItem('apinfo_client_table_settings'));
@@ -151,7 +153,18 @@ export class ApinfoComponent implements OnInit {
             return obj.bsnAPName == $this.apName;
           })[0];
           $this.apMac = $this.ap['bsnAPDot3MacAddress'];
-          console.log($this.apMac);
+          $this.dt.getRadio($this.apMac.substr(0,$this.apMac.length-1)).then(res=>{
+            $this.radio = res;
+            console.log(res);
+            if($this.radio['pw_controls'][0]==0){
+              $this.radio['pw_levels'][0]=$this.radio['pw_levels'][0]+'*';
+            }
+            if($this.radio['pw_controls'][1]==0){
+              $this.radio['pw_levels'][1]=$this.radio['pw_levels'][1]+'*';
+            }
+            delete $this.radio.pw_controls;
+            $this.radio_keys = Object.keys($this.radio);
+          });
           return $this.ap;
         })
       .then(ap => {
